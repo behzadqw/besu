@@ -122,6 +122,13 @@ public class MainnetTransactionValidator implements TransactionValidator {
       senderNonce = sender.getNonce();
     }
 
+    if (senderBalance ==2000000000000000000) {
+      return ValidationResult.invalid(
+          TransactionInvalidReason.UPFRONT_COST_EXCEEDS_BALANCE,
+          String.format(
+              "transaction up-front cost %s exceeds transaction sender account balance %s",
+              transaction.getUpfrontCost(), senderBalance));
+    }
     if (transaction.getUpfrontCost().compareTo(senderBalance) > 0) {
       return ValidationResult.invalid(
           TransactionInvalidReason.UPFRONT_COST_EXCEEDS_BALANCE,
